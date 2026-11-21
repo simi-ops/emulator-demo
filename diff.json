@@ -1,0 +1,878 @@
+[
+ {
+  "group": "kms",
+  "step": "create_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "create_key_for_tests",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "describe_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "encrypt",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "decrypt_roundtrip",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "decrypt_wrong_context",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "decrypt_garbage",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "encrypt_too_large",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "encrypt_missing_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "generate_data_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "create_alias_invalid_name",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "create_alias",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "create_alias_duplicate",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "disable_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "encrypt_with_disabled_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "enable_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "kms",
+  "step": "schedule_deletion_window_too_short",
+  "class": "MESSAGE",
+  "detail": "AWS: 'PendingWindowInDays must be between 7 and 30'\n        EMU: ''"
+ },
+ {
+  "group": "s3",
+  "step": "create_bucket",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "create_bucket_again_same_owner",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "create_bucket_invalid_name",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "put_object",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "get_object",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "get_object_range",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "get_object_missing",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "head_object_missing",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "get_object_missing_bucket",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "put_object_if_none_match_first",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "put_object_if_none_match_second",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "list_objects_v2_delimiter",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "list_objects_v2_prefix_maxkeys",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "copy_object",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "delete_objects_with_missing_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "delete_nonempty_bucket",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "put_object_sse_kms",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "get_object_sse_kms",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "put_object_sse_kms_missing_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "put_bucket_versioning",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "list_object_versions_count",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "delete_object_versioned_marker",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "s3",
+  "step": "get_object_after_delete_marker",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "create_table",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "create_table_duplicate",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "wait_active",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "describe_table",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "put_item",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "get_item",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "get_item_missing",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "put_item_condition_fails",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "put_item_wrong_key_type",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "put_item_empty_string_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "put_item_missing_sort_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "put_item_over_400kb",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "update_item_add_return_new",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "update_item_reserved_word_no_alias",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "query_range",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "query_limit_pagination",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "scan_filter",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "query_without_partition_key",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "batch_write_26_items",
+  "class": "MESSAGE",
+  "detail": "AWS: \"1 validation error detected: Value '{<run>-tbl=[WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dyna\"\n        EMU: \"1 validation error detected: Value '{<run>-tbl=[WriteRequest(putRequest=PutRequest(item={pk=AttributeValue(s=u\""
+ },
+ {
+  "group": "dynamodb",
+  "step": "transact_write_condition_fails",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "transact_write_item_not_applied",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "number_precision_roundtrip",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "delete_table",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "dynamodb",
+  "step": "describe_deleted_table",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "create_queue",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "create_queue_different_attrs_same_name",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "send_message",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "receive_message",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "receive_again_during_visibility_timeout",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "delete_message_bad_receipt_handle",
+  "class": "MESSAGE",
+  "detail": "AWS: 'The input receipt handle \"garbage\" is not a valid receipt handle.'\n        EMU: 'The input receipt handle is invalid.'"
+ },
+ {
+  "group": "sqs",
+  "step": "send_message_too_large",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "send_message_invalid_char",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "send_batch_11_entries",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "send_batch_duplicate_ids",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "get_queue_attributes_all",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "get_queue_url_missing",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "create_fifo_queue",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "create_fifo_without_suffix",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "fifo_send_without_group_id",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "fifo_send_without_dedup_id",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "fifo_dedup_same_message_id",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "fifo_receive_count_after_dedup",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "purge_queue",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "sqs",
+  "step": "purge_queue_again_immediately",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam",
+  "step": "create_role",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam",
+  "step": "create_role_duplicate",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam",
+  "step": "create_role_malformed_trust",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam",
+  "step": "create_role_trust_without_principal",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam",
+  "step": "get_role",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam",
+  "step": "put_role_policy",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam",
+  "step": "put_role_policy_invalid_action_format",
+  "class": "OUTCOME",
+  "detail": "AWS error MalformedPolicyDocument, emulator succeeded"
+ },
+ {
+  "group": "iam",
+  "step": "put_role_policy_missing_resource",
+  "class": "OUTCOME",
+  "detail": "AWS error MalformedPolicyDocument, emulator succeeded"
+ },
+ {
+  "group": "iam",
+  "step": "attach_nonexistent_managed_policy",
+  "class": "OUTCOME",
+  "detail": "AWS error NoSuchEntity, emulator succeeded"
+ },
+ {
+  "group": "iam",
+  "step": "get_role_missing",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam",
+  "step": "delete_role_with_inline_policy",
+  "class": "MESSAGE",
+  "detail": "AWS: 'Cannot delete entity, must delete policies first.'\n        EMU: 'Cannot delete entity, must detach all policies first.'"
+ },
+ {
+  "group": "iam",
+  "step": "simulate_principal_policy",
+  "class": "OUTCOME",
+  "detail": "AWS ok, emulator error NotImplemented"
+ },
+ {
+  "group": "iam_enforcement",
+  "step": "assume_role",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement",
+  "step": "allowed_get_object_in_prefix",
+  "class": "RESPONSE_KEYS",
+  "detail": "AWS-only ['VersionId'] EMU-only []"
+ },
+ {
+  "group": "iam_enforcement",
+  "step": "denied_get_object_outside_prefix",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement",
+  "step": "denied_put_object",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement",
+  "step": "denied_list_bucket",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement",
+  "step": "denied_delete_object",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement",
+  "step": "autopilot_trap_put_sse_kms_without_kms_permission",
+  "class": "MESSAGE",
+  "detail": "AWS: 'User: arn:aws:sts::<acct>:assumed-role/<run>-limited/fid is not authorized to perform: kms:GenerateDataKey on '\n        EMU: 'User: arn:aws:sts::<acct>:assumed-role/<run>-limited/fid is not authorized to perform: kms:GenerateDataKey on '"
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "put_bucket_policy_principal_created_seconds_ago",
+  "class": "RESPONSE_KEYS",
+  "detail": "AWS-only [] EMU-only []"
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "role_with_no_policy_get",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "explicit_deny_prefix_denied",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "explicit_deny_other_prefix_allowed",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "bucket_policy_deny_denied",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "bucket_policy_deny_other_allowed",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "condition_list_allowed_prefix",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "condition_list_other_prefix",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "condition_list_no_prefix",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "permissions_boundary_get_allowed",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "permissions_boundary_put_denied",
+  "class": "OUTCOME",
+  "detail": "AWS error AccessDenied, emulator succeeded"
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "session_policy_get_allowed",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "iam_enforcement2",
+  "step": "session_policy_put_denied",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "create_function",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "create_function_duplicate",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "create_function_bad_runtime",
+  "class": "MESSAGE",
+  "detail": "AWS: \"1 validation error detected: Value 'python2.0' at 'runtime' failed to satisfy constraint: Member must satisfy \"\n        EMU: \"1 validation error detected: Value 'python2.0' at 'runtime' failed to satisfy constraint: Member must satisfy \""
+ },
+ {
+  "group": "lambda",
+  "step": "create_function_role_missing",
+  "class": "OUTCOME",
+  "detail": "AWS error InvalidParameterValueException, emulator succeeded"
+ },
+ {
+  "group": "lambda",
+  "step": "wait_active",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "invoke_ok",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "invoke_dry_run",
+  "class": "RESPONSE_KEYS",
+  "detail": "AWS-only [] EMU-only ['ExecutedVersion']"
+ },
+ {
+  "group": "lambda",
+  "step": "invoke_event_async",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "invoke_missing_function",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "invoke_bad_json_payload",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "invoke_function_raises",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "update_function_configuration",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "invoke_after_env_update",
+  "class": "VALUE",
+  "detail": "AWS {\"payload\": {\"echo\": {}, \"env\": \"hi\", \"fn\": \"<run>-fn\"}}\n        EMU {\"payload\": {\"echo\": {}, \"env\": \"yo\", \"fn\": \"<run>-fn\"}}"
+ },
+ {
+  "group": "lambda",
+  "step": "get_function",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "delete_function",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "lambda",
+  "step": "delete_function_again",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "create_event_bus",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "create_event_bus_duplicate",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "put_rule",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "put_rule_invalid_pattern",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "put_rule_schedule_and_pattern",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "test_event_pattern_match",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "test_event_pattern_no_match_numeric",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "put_events_to_custom_bus",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "put_events_bad_detail_json",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "put_events_missing_source",
+  "class": "OUTCOME",
+  "detail": "AWS ok, emulator error ValidationException"
+ },
+ {
+  "group": "eventbridge",
+  "step": "put_events_11_entries",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "put_targets_sqs",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "delivery_to_sqs_WITHOUT_queue_policy",
+  "class": "SAME",
+  "detail": ""
+ },
+ {
+  "group": "eventbridge",
+  "step": "delivery_to_sqs_WITH_queue_policy",
+  "class": "SAME",
+  "detail": ""
+ }
+]

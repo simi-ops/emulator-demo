@@ -1,0 +1,1958 @@
+{
+ "backend": "aws",
+ "run": "emufidc851ff",
+ "date": "2026-11-15T13:32:49.932812+00:00",
+ "cleanup": {
+  "s3_bucket": "ok",
+  "ddb_table": "ResourceNotFoundException: An error occurred (ResourceNotFoundException) when calling the DeleteTable operation: Requested resource not found: Tabl",
+  "sqs_qurl": "ok",
+  "sqs_fifo": "ok",
+  "sqs_evq": "ok",
+  "lambda_fn": "ResourceNotFoundException: An error occurred (ResourceNotFoundException) when calling the DeleteFunction operation: Function not found: arn:aws:lam",
+  "lambda_fn_err": "ok",
+  "events_bus": "ok",
+  "iam_1ff-role": "ok",
+  "iam_-limited": "ok",
+  "iam_-e2nopol": "ok",
+  "iam_f-e2deny": "ok",
+  "iam_1ff-e2bp": "ok",
+  "iam_f-e2cond": "ok",
+  "iam_ff-e2bnd": "ok",
+  "iam_f-e2sess": "ok",
+  "iam_boundary_policy": "ok",
+  "kms_5336e72d": "scheduled(7d)",
+  "kms_80302f15": "scheduled(7d)"
+ },
+ "results": [
+  {
+   "group": "kms",
+   "step": "create_key",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "KeyMetadata"
+   ],
+   "val": {
+    "KeyState": "Enabled",
+    "KeyUsage": "ENCRYPT_DECRYPT",
+    "KeySpec": "SYMMETRIC_DEFAULT",
+    "Origin": "AWS_KMS",
+    "Enabled": true,
+    "MultiRegion": false,
+    "KeyManager": "CUSTOMER",
+    "EncryptionAlgorithms": [
+     "SYMMETRIC_DEFAULT"
+    ]
+   },
+   "secs": 1.0
+  },
+  {
+   "group": "kms",
+   "step": "create_key_for_tests",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "KeyMetadata"
+   ],
+   "val": {
+    "KeyState": "Enabled"
+   },
+   "secs": 0.32
+  },
+  {
+   "group": "kms",
+   "step": "describe_key",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "KeyMetadata"
+   ],
+   "val": {
+    "KeyState": "Enabled",
+    "KeyUsage": "ENCRYPT_DECRYPT",
+    "KeySpec": "SYMMETRIC_DEFAULT",
+    "Origin": "AWS_KMS",
+    "Enabled": true,
+    "KeyManager": "CUSTOMER"
+   },
+   "secs": 0.25
+  },
+  {
+   "group": "kms",
+   "step": "encrypt",
+   "ok": true,
+   "val": {
+    "ok": 1
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "kms",
+   "step": "decrypt_roundtrip",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "EncryptionAlgorithm",
+    "KeyId",
+    "KeyMaterialId",
+    "Plaintext"
+   ],
+   "val": {
+    "Plaintext": "hello",
+    "EncryptionAlgorithm": "SYMMETRIC_DEFAULT"
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "kms",
+   "step": "decrypt_wrong_context",
+   "ok": false,
+   "code": "InvalidCiphertextException",
+   "status": 400,
+   "msg": "",
+   "secs": 0.26
+  },
+  {
+   "group": "kms",
+   "step": "decrypt_garbage",
+   "ok": false,
+   "code": "InvalidCiphertextException",
+   "status": 400,
+   "msg": "",
+   "secs": 0.25
+  },
+  {
+   "group": "kms",
+   "step": "encrypt_too_large",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "1 validation error detected: Value at 'plaintext' failed to satisfy constraint: Member must have length less than or equal to 4096",
+   "secs": 0.25
+  },
+  {
+   "group": "kms",
+   "step": "encrypt_missing_key",
+   "ok": false,
+   "code": "NotFoundException",
+   "status": 400,
+   "msg": "Key 'arn:aws:kms:us-east-1:<acct>:key/<uuid>' does not exist",
+   "secs": 0.25
+  },
+  {
+   "group": "kms",
+   "step": "generate_data_key",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "CiphertextBlob",
+    "KeyId",
+    "KeyMaterialId",
+    "Plaintext"
+   ],
+   "val": {
+    "plain_len": 32,
+    "has_blob": true
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "kms",
+   "step": "create_alias_invalid_name",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "Alias must start with the prefix \"alias/\". Please see https://docs.aws.amazon.com/kms/latest/developerguide/kms-alias.html",
+   "secs": 0.25
+  },
+  {
+   "group": "kms",
+   "step": "create_alias",
+   "ok": true,
+   "status": 200,
+   "keys": [],
+   "secs": 0.27
+  },
+  {
+   "group": "kms",
+   "step": "create_alias_duplicate",
+   "ok": false,
+   "code": "AlreadyExistsException",
+   "status": 400,
+   "msg": "An alias with the name arn:aws:kms:us-east-1:<acct>:alias/<run>-a already exists",
+   "secs": 0.26
+  },
+  {
+   "group": "kms",
+   "step": "disable_key",
+   "ok": true,
+   "status": 200,
+   "keys": [],
+   "secs": 0.29
+  },
+  {
+   "group": "kms",
+   "step": "encrypt_with_disabled_key",
+   "ok": false,
+   "code": "DisabledException",
+   "status": 400,
+   "msg": "arn:aws:kms:us-east-1:<acct>:key/<uuid> is disabled.",
+   "secs": 0.25
+  },
+  {
+   "group": "kms",
+   "step": "enable_key",
+   "ok": true,
+   "status": 200,
+   "keys": [],
+   "secs": 0.27
+  },
+  {
+   "group": "kms",
+   "step": "schedule_deletion_window_too_short",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "PendingWindowInDays must be between 7 and 30",
+   "secs": 0.25
+  },
+  {
+   "group": "s3",
+   "step": "create_bucket",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "BucketArn",
+    "Location"
+   ],
+   "val": {
+    "Location": "/<run>-bkt"
+   },
+   "secs": 1.05
+  },
+  {
+   "group": "s3",
+   "step": "create_bucket_again_same_owner",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "BucketArn",
+    "Location"
+   ],
+   "secs": 0.32
+  },
+  {
+   "group": "s3",
+   "step": "create_bucket_invalid_name",
+   "ok": false,
+   "code": "InvalidBucketName",
+   "status": 400,
+   "msg": "The specified bucket is not valid.",
+   "secs": 0.85
+  },
+  {
+   "group": "s3",
+   "step": "put_object",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "ChecksumCRC32",
+    "ChecksumType",
+    "ETag",
+    "ServerSideEncryption"
+   ],
+   "val": {
+    "ETag": "\"<hex>\""
+   },
+   "secs": 0.53
+  },
+  {
+   "group": "s3",
+   "step": "get_object",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "AcceptRanges",
+    "Body",
+    "ChecksumCRC32",
+    "ChecksumType",
+    "ContentLength",
+    "ContentType",
+    "ETag",
+    "LastModified",
+    "Metadata",
+    "ServerSideEncryption"
+   ],
+   "val": {
+    "body": "hello world",
+    "ETag": "\"<hex>\"",
+    "ContentLength": 11,
+    "ContentType": "binary/octet-stream"
+   },
+   "secs": 0.4
+  },
+  {
+   "group": "s3",
+   "step": "get_object_range",
+   "ok": true,
+   "status": 206,
+   "keys": [
+    "AcceptRanges",
+    "Body",
+    "ContentLength",
+    "ContentRange",
+    "ContentType",
+    "ETag",
+    "LastModified",
+    "Metadata",
+    "ServerSideEncryption"
+   ],
+   "val": {
+    "body": "hello",
+    "ContentRange": "bytes 0-4/11"
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "s3",
+   "step": "get_object_missing",
+   "ok": false,
+   "code": "NoSuchKey",
+   "status": 404,
+   "msg": "The specified key does not exist.",
+   "secs": 0.26
+  },
+  {
+   "group": "s3",
+   "step": "head_object_missing",
+   "ok": false,
+   "code": "404",
+   "status": 404,
+   "msg": "Not Found",
+   "secs": 0.27
+  },
+  {
+   "group": "s3",
+   "step": "get_object_missing_bucket",
+   "ok": false,
+   "code": "NoSuchBucket",
+   "status": 404,
+   "msg": "The specified bucket does not exist",
+   "secs": 2.18
+  },
+  {
+   "group": "s3",
+   "step": "put_object_if_none_match_first",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "ChecksumCRC32",
+    "ChecksumType",
+    "ETag",
+    "ServerSideEncryption"
+   ],
+   "secs": 0.52
+  },
+  {
+   "group": "s3",
+   "step": "put_object_if_none_match_second",
+   "ok": false,
+   "code": "PreconditionFailed",
+   "status": 412,
+   "msg": "At least one of the pre-conditions you specified did not hold",
+   "secs": 0.51
+  },
+  {
+   "group": "s3",
+   "step": "list_objects_v2_delimiter",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "CommonPrefixes",
+    "Contents",
+    "Delimiter",
+    "EncodingType",
+    "IsTruncated",
+    "KeyCount",
+    "MaxKeys",
+    "Name",
+    "Prefix"
+   ],
+   "val": {
+    "prefixes": [
+     "a/",
+     "b/"
+    ],
+    "keys": [
+     "cond.txt",
+     "top.txt"
+    ],
+    "KeyCount": 4
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "s3",
+   "step": "list_objects_v2_prefix_maxkeys",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Contents",
+    "EncodingType",
+    "IsTruncated",
+    "KeyCount",
+    "MaxKeys",
+    "Name",
+    "NextContinuationToken",
+    "Prefix"
+   ],
+   "val": {
+    "keys": [
+     "a/one.txt"
+    ],
+    "IsTruncated": true,
+    "has_token": true
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "s3",
+   "step": "copy_object",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "CopyObjectResult",
+    "ServerSideEncryption"
+   ],
+   "val": {
+    "ETag": "\"<hex>\""
+   },
+   "secs": 0.28
+  },
+  {
+   "group": "s3",
+   "step": "delete_objects_with_missing_key",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Deleted"
+   ],
+   "val": {
+    "deleted": [
+     "never-existed",
+     "top.txt"
+    ],
+    "errors": []
+   },
+   "secs": 0.29
+  },
+  {
+   "group": "s3",
+   "step": "delete_nonempty_bucket",
+   "ok": false,
+   "code": "BucketNotEmpty",
+   "status": 409,
+   "msg": "The bucket you tried to delete is not empty",
+   "secs": 0.83
+  },
+  {
+   "group": "s3",
+   "step": "put_object_sse_kms",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "ChecksumCRC32",
+    "ChecksumType",
+    "ETag",
+    "SSEKMSKeyId",
+    "ServerSideEncryption"
+   ],
+   "val": {
+    "SSE": "aws:kms",
+    "key_matches": true
+   },
+   "secs": 0.56
+  },
+  {
+   "group": "s3",
+   "step": "get_object_sse_kms",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "AcceptRanges",
+    "Body",
+    "ChecksumCRC32",
+    "ChecksumType",
+    "ContentLength",
+    "ContentType",
+    "ETag",
+    "LastModified",
+    "Metadata",
+    "SSEKMSKeyId",
+    "ServerSideEncryption"
+   ],
+   "val": {
+    "body": "secret",
+    "SSE": "aws:kms"
+   },
+   "secs": 0.31
+  },
+  {
+   "group": "s3",
+   "step": "put_object_sse_kms_missing_key",
+   "ok": false,
+   "code": "KMS.NotFoundException",
+   "status": 400,
+   "msg": "Key 'arn:aws:kms:us-east-1:<acct>:key/<uuid>' does not exist",
+   "secs": 0.26
+  },
+  {
+   "group": "s3",
+   "step": "put_bucket_versioning",
+   "ok": true,
+   "status": 200,
+   "keys": [],
+   "secs": 1.05
+  },
+  {
+   "group": "s3",
+   "step": "list_object_versions_count",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "EncodingType",
+    "IsTruncated",
+    "KeyMarker",
+    "MaxKeys",
+    "Name",
+    "Prefix",
+    "VersionIdMarker",
+    "Versions"
+   ],
+   "val": {
+    "versions": 2,
+    "latest_flags": [
+     true,
+     false
+    ]
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "s3",
+   "step": "delete_object_versioned_marker",
+   "ok": true,
+   "status": 204,
+   "keys": [
+    "DeleteMarker",
+    "VersionId"
+   ],
+   "val": {
+    "DeleteMarker": true,
+    "has_version_id": true
+   },
+   "secs": 0.28
+  },
+  {
+   "group": "s3",
+   "step": "get_object_after_delete_marker",
+   "ok": false,
+   "code": "NoSuchKey",
+   "status": 404,
+   "msg": "The specified key does not exist.",
+   "secs": 0.28
+  },
+  {
+   "group": "dynamodb",
+   "step": "create_table",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "TableDescription"
+   ],
+   "val": {
+    "TableStatus": "CREATING",
+    "KeySchema": [
+     {
+      "AttributeName": "pk",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "sk",
+      "KeyType": "RANGE"
+     }
+    ]
+   },
+   "secs": 0.87
+  },
+  {
+   "group": "dynamodb",
+   "step": "create_table_duplicate",
+   "ok": false,
+   "code": "ResourceInUseException",
+   "status": 400,
+   "msg": "Attempt to change a resource which is still in use: Table is being created: <run>-tbl",
+   "secs": 0.29
+  },
+  {
+   "group": "dynamodb",
+   "step": "wait_active",
+   "ok": true,
+   "val": {
+    "waited": true
+   },
+   "secs": 20.57
+  },
+  {
+   "group": "dynamodb",
+   "step": "describe_table",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Table"
+   ],
+   "val": {
+    "TableStatus": "ACTIVE",
+    "BillingModeSummary": {
+     "BillingMode": "PAY_PER_REQUEST",
+     "LastUpdateToPayPerRequestDateTime": "<ts>"
+    },
+    "ItemCount": 0,
+    "KeySchema": [
+     {
+      "AttributeName": "pk",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "sk",
+      "KeyType": "RANGE"
+     }
+    ],
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "pk",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "sk",
+      "AttributeType": "N"
+     }
+    ]
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "dynamodb",
+   "step": "put_item",
+   "ok": true,
+   "status": 200,
+   "keys": [],
+   "secs": 0.27
+  },
+  {
+   "group": "dynamodb",
+   "step": "get_item",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Item"
+   ],
+   "val": {
+    "pk": {
+     "S": "u1"
+    },
+    "name": {
+     "S": "ann"
+    },
+    "n": {
+     "N": "1.5"
+    },
+    "sk": {
+     "N": "1"
+    }
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "dynamodb",
+   "step": "get_item_missing",
+   "ok": true,
+   "status": 200,
+   "keys": [],
+   "val": {
+    "has_item": false
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "dynamodb",
+   "step": "put_item_condition_fails",
+   "ok": false,
+   "code": "ConditionalCheckFailedException",
+   "status": 400,
+   "msg": "The conditional request failed",
+   "extra": {
+    "Item": {
+     "name": {
+      "S": "ann"
+     },
+     "pk": {
+      "S": "u1"
+     },
+     "n": {
+      "N": "1.5"
+     },
+     "sk": {
+      "N": "1"
+     }
+    }
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "dynamodb",
+   "step": "put_item_wrong_key_type",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "One or more parameter values were invalid: Type mismatch for key pk expected: S actual: N",
+   "secs": 0.26
+  },
+  {
+   "group": "dynamodb",
+   "step": "put_item_empty_string_key",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "One or more parameter values are not valid. The AttributeValue for a key attribute cannot contain an empty string value. Key: pk",
+   "secs": 0.26
+  },
+  {
+   "group": "dynamodb",
+   "step": "put_item_missing_sort_key",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "One or more parameter values were invalid: Missing the key sk in the item",
+   "secs": 0.27
+  },
+  {
+   "group": "dynamodb",
+   "step": "put_item_over_400kb",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "Item size has exceeded the maximum allowed size",
+   "secs": 3.31
+  },
+  {
+   "group": "dynamodb",
+   "step": "update_item_add_return_new",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Attributes"
+   ],
+   "val": {
+    "n": {
+     "N": "1.5"
+    },
+    "hits": {
+     "N": "1"
+    },
+    "pk": {
+     "S": "u1"
+    },
+    "sk": {
+     "N": "1"
+    },
+    "name": {
+     "S": "ann"
+    }
+   },
+   "secs": 0.28
+  },
+  {
+   "group": "dynamodb",
+   "step": "update_item_reserved_word_no_alias",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "1 validation error detected: Invalid UpdateExpression: Attribute name is a reserved keyword; reserved keyword: name",
+   "secs": 0.27
+  },
+  {
+   "group": "dynamodb",
+   "step": "query_range",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Count",
+    "Items",
+    "ScannedCount"
+   ],
+   "val": {
+    "sks": [
+     "2",
+     "3",
+     "4"
+    ],
+    "Count": 3,
+    "ScannedCount": 3
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "dynamodb",
+   "step": "query_limit_pagination",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Count",
+    "Items",
+    "LastEvaluatedKey",
+    "ScannedCount"
+   ],
+   "val": {
+    "sks": [
+     "5",
+     "4"
+    ],
+    "LastEvaluatedKey": {
+     "sk": {
+      "N": "4"
+     },
+     "pk": {
+      "S": "u1"
+     }
+    }
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "dynamodb",
+   "step": "scan_filter",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Count",
+    "Items",
+    "ScannedCount"
+   ],
+   "val": {
+    "Count": 2,
+    "ScannedCount": 5
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "dynamodb",
+   "step": "query_without_partition_key",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "Query condition missed key schema element: pk",
+   "secs": 0.26
+  },
+  {
+   "group": "dynamodb",
+   "step": "batch_write_26_items",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "1 validation error detected: Value '{<run>-tbl=[WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@a576f018, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@8708cdf7, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@689aabd6, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@4a2c89b5, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@2bbe6794, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@d504573, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@eee22352, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@d0740131, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@b205df10, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@9397bcef, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@f620ce19, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@d7b2abf8, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@b94489d7, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@9ad667b6, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@7c684595, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@5dfa2374, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@3f8c0153, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@211ddf32, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@2afbd11, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@e4419af0, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@46caac1a, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@285c89f9, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@9ee67d8, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@eb8045b7, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@cd122396, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null), WriteRequest(putRequest=PutRequest(item={sk=com.amazonaws.dynamodb.v20120810.AttributeValue@aea40175, pk=com.amazonaws.dynamodb.v20120810.AttributeValue@9a8d5585}, workloadProfileName=null), deleteRequest=null)]}' at 'requestItems' failed to satisfy constraint: Map value must satisfy constraint: [Member must have length less than or equal to 25, Member must have length greater than or equal to 1]",
+   "secs": 0.27
+  },
+  {
+   "group": "dynamodb",
+   "step": "transact_write_condition_fails",
+   "ok": false,
+   "code": "TransactionCanceledException",
+   "status": 400,
+   "msg": "Transaction cancelled, please refer cancellation reasons for specific reasons [None, ConditionalCheckFailed]",
+   "extra": {
+    "Message": "Transaction cancelled, please refer cancellation reasons for specific reasons [None, ConditionalCheckFailed]",
+    "CancellationReasons": [
+     {
+      "Code": "None"
+     },
+     {
+      "Code": "ConditionalCheckFailed",
+      "Message": "The conditional request failed"
+     }
+    ]
+   },
+   "secs": 0.28
+  },
+  {
+   "group": "dynamodb",
+   "step": "transact_write_item_not_applied",
+   "ok": true,
+   "status": 200,
+   "keys": [],
+   "val": {
+    "has_item": false
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "dynamodb",
+   "step": "number_precision_roundtrip",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Item"
+   ],
+   "val": {
+    "N": "3.<hex>"
+   },
+   "secs": 0.51
+  },
+  {
+   "group": "dynamodb",
+   "step": "delete_table",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "TableDescription"
+   ],
+   "val": {
+    "TableStatus": "DELETING"
+   },
+   "secs": 0.32
+  },
+  {
+   "group": "dynamodb",
+   "step": "describe_deleted_table",
+   "ok": false,
+   "code": "ResourceNotFoundException",
+   "status": 400,
+   "msg": "Requested resource not found: Table: <run>-tbl not found",
+   "secs": 20.8
+  },
+  {
+   "group": "sqs",
+   "step": "create_queue",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "QueueUrl"
+   ],
+   "val": {
+    "url_tail": "<run>-q"
+   },
+   "secs": 2.75
+  },
+  {
+   "group": "sqs",
+   "step": "create_queue_different_attrs_same_name",
+   "ok": false,
+   "code": "QueueAlreadyExists",
+   "status": 400,
+   "msg": "A queue already exists with the same name and a different value for attribute VisibilityTimeout",
+   "secs": 0.26
+  },
+  {
+   "group": "sqs",
+   "step": "send_message",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "MD5OfMessageBody",
+    "MessageId"
+   ],
+   "val": {
+    "md5": "<hex>"
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "sqs",
+   "step": "receive_message",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Messages"
+   ],
+   "val": {
+    "body": "hi",
+    "receive_count": "1",
+    "attr_names": [
+     "ApproximateFirstReceiveTimestamp",
+     "ApproximateReceiveCount",
+     "SenderId",
+     "SentTimestamp"
+    ]
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "sqs",
+   "step": "receive_again_during_visibility_timeout",
+   "ok": true,
+   "status": 200,
+   "keys": [],
+   "val": {
+    "empty": true
+   },
+   "secs": 0.3
+  },
+  {
+   "group": "sqs",
+   "step": "delete_message_bad_receipt_handle",
+   "ok": false,
+   "code": "ReceiptHandleIsInvalid",
+   "status": 404,
+   "msg": "The input receipt handle \"garbage\" is not a valid receipt handle.",
+   "secs": 0.25
+  },
+  {
+   "group": "sqs",
+   "step": "send_message_too_large",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "MD5OfMessageBody",
+    "MessageId"
+   ],
+   "secs": 1.35
+  },
+  {
+   "group": "sqs",
+   "step": "send_message_invalid_char",
+   "ok": false,
+   "code": "InvalidMessageContents",
+   "status": 400,
+   "msg": "Invalid binary character '#x0' was found in the message body, the set of allowed characters is #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF].",
+   "secs": 1.01
+  },
+  {
+   "group": "sqs",
+   "step": "send_batch_11_entries",
+   "ok": false,
+   "code": "AWS.SimpleQueueService.TooManyEntriesInBatchRequest",
+   "status": 400,
+   "msg": "Maximum number of entries per request are 10. You have sent 11.",
+   "secs": 0.26
+  },
+  {
+   "group": "sqs",
+   "step": "send_batch_duplicate_ids",
+   "ok": false,
+   "code": "AWS.SimpleQueueService.BatchEntryIdsNotDistinct",
+   "status": 400,
+   "msg": "Id 1 repeated.",
+   "secs": 0.25
+  },
+  {
+   "group": "sqs",
+   "step": "get_queue_attributes_all",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Attributes"
+   ],
+   "val": {
+    "names": [
+     "ApproximateNumberOfMessages",
+     "ApproximateNumberOfMessagesDelayed",
+     "ApproximateNumberOfMessagesNotVisible",
+     "CreatedTimestamp",
+     "DelaySeconds",
+     "LastModifiedTimestamp",
+     "MaximumMessageSize",
+     "MessageRetentionPeriod",
+     "QueueArn",
+     "ReceiveMessageWaitTimeSeconds",
+     "SqsManagedSseEnabled",
+     "VisibilityTimeout"
+    ],
+    "VisibilityTimeout": "30",
+    "MaximumMessageSize": "1048576"
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "sqs",
+   "step": "get_queue_url_missing",
+   "ok": false,
+   "code": "AWS.SimpleQueueService.NonExistentQueue",
+   "status": 400,
+   "msg": "The specified queue does not exist.",
+   "secs": 0.26
+  },
+  {
+   "group": "sqs",
+   "step": "create_fifo_queue",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "QueueUrl"
+   ],
+   "val": {
+    "ends_fifo": true
+   },
+   "secs": 0.28
+  },
+  {
+   "group": "sqs",
+   "step": "create_fifo_without_suffix",
+   "ok": false,
+   "code": "InvalidParameterValue",
+   "status": 400,
+   "msg": "The name of a FIFO queue can only include alphanumeric characters, hyphens, or underscores, must end with .fifo suffix and be 1 to 80 in length.",
+   "secs": 0.25
+  },
+  {
+   "group": "sqs",
+   "step": "fifo_send_without_group_id",
+   "ok": false,
+   "code": "MissingParameter",
+   "status": 400,
+   "msg": "The request must contain the parameter MessageGroupId.",
+   "secs": 0.25
+  },
+  {
+   "group": "sqs",
+   "step": "fifo_send_without_dedup_id",
+   "ok": false,
+   "code": "InvalidParameterValue",
+   "status": 400,
+   "msg": "The queue should either have ContentBasedDeduplication enabled or MessageDeduplicationId provided explicitly",
+   "secs": 0.25
+  },
+  {
+   "group": "sqs",
+   "step": "fifo_dedup_same_message_id",
+   "ok": true,
+   "val": {
+    "same_message_id": true,
+    "has_seq": true
+   },
+   "secs": 0.52
+  },
+  {
+   "group": "sqs",
+   "step": "fifo_receive_count_after_dedup",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Messages"
+   ],
+   "val": {
+    "n": 1
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "sqs",
+   "step": "purge_queue",
+   "ok": true,
+   "status": 200,
+   "keys": [],
+   "secs": 0.29
+  },
+  {
+   "group": "sqs",
+   "step": "purge_queue_again_immediately",
+   "ok": false,
+   "code": "AWS.SimpleQueueService.PurgeQueueInProgress",
+   "status": 403,
+   "msg": "Only one PurgeQueue operation on <run>-q is allowed every 60 seconds.",
+   "secs": 0.26
+  },
+  {
+   "group": "iam",
+   "step": "create_role",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Role"
+   ],
+   "val": {
+    "Path": "/",
+    "arn_tail": "role/<run>-role"
+   },
+   "secs": 0.92
+  },
+  {
+   "group": "iam",
+   "step": "create_role_duplicate",
+   "ok": false,
+   "code": "EntityAlreadyExists",
+   "status": 409,
+   "msg": "Role with name <run>-role already exists.",
+   "secs": 0.29
+  },
+  {
+   "group": "iam",
+   "step": "create_role_malformed_trust",
+   "ok": false,
+   "code": "MalformedPolicyDocument",
+   "status": 400,
+   "msg": "This policy contains invalid Json",
+   "secs": 0.3
+  },
+  {
+   "group": "iam",
+   "step": "create_role_trust_without_principal",
+   "ok": false,
+   "code": "MalformedPolicyDocument",
+   "status": 400,
+   "msg": "Missing required field Principal",
+   "secs": 0.86
+  },
+  {
+   "group": "iam",
+   "step": "get_role",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Role"
+   ],
+   "val": {
+    "trust": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       },
+       "Action": "sts:AssumeRole"
+      }
+     ]
+    },
+    "MaxSessionDuration": 3600
+   },
+   "secs": 0.82
+  },
+  {
+   "group": "iam",
+   "step": "put_role_policy",
+   "ok": true,
+   "status": 200,
+   "keys": [],
+   "secs": 0.33
+  },
+  {
+   "group": "iam",
+   "step": "put_role_policy_invalid_action_format",
+   "ok": false,
+   "code": "MalformedPolicyDocument",
+   "status": 400,
+   "msg": "Actions/Conditions must be prefaced by a vendor, e.g., iam, sdb, ec2, etc.",
+   "secs": 0.31
+  },
+  {
+   "group": "iam",
+   "step": "put_role_policy_missing_resource",
+   "ok": false,
+   "code": "MalformedPolicyDocument",
+   "status": 400,
+   "msg": "Policy statement must contain resources.",
+   "secs": 0.85
+  },
+  {
+   "group": "iam",
+   "step": "attach_nonexistent_managed_policy",
+   "ok": false,
+   "code": "NoSuchEntity",
+   "status": 404,
+   "msg": "Policy arn:aws:iam::aws:policy/DoesNotExist does not exist or is not attachable.",
+   "secs": 0.83
+  },
+  {
+   "group": "iam",
+   "step": "get_role_missing",
+   "ok": false,
+   "code": "NoSuchEntity",
+   "status": 404,
+   "msg": "The role with name <run>-missing cannot be found.",
+   "secs": 0.28
+  },
+  {
+   "group": "iam",
+   "step": "delete_role_with_inline_policy",
+   "ok": false,
+   "code": "DeleteConflict",
+   "status": 409,
+   "msg": "Cannot delete entity, must delete policies first.",
+   "secs": 0.37
+  },
+  {
+   "group": "iam",
+   "step": "simulate_principal_policy",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "EvaluationResults",
+    "IsTruncated"
+   ],
+   "val": {
+    "s3:GetObject": "allowed",
+    "s3:PutObject": "implicitDeny"
+   },
+   "secs": 0.61
+  },
+  {
+   "group": "iam_enforcement",
+   "step": "assume_role",
+   "ok": true,
+   "val": {
+    "got_creds": true
+   },
+   "secs": 0.0
+  },
+  {
+   "group": "iam_enforcement",
+   "step": "allowed_get_object_in_prefix",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "AcceptRanges",
+    "Body",
+    "ChecksumCRC32",
+    "ChecksumType",
+    "ContentLength",
+    "ContentType",
+    "ETag",
+    "LastModified",
+    "Metadata",
+    "ServerSideEncryption",
+    "VersionId"
+   ],
+   "val": {
+    "body": "hello world"
+   },
+   "secs": 0.89
+  },
+  {
+   "group": "iam_enforcement",
+   "step": "denied_get_object_outside_prefix",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-limited/fid is not authorized to perform: s3:GetObject on resource: \"arn:aws:s3:::<run>-bkt/b/three.txt\" because no identity-based policy allows the s3:GetObject action",
+   "secs": 0.28
+  },
+  {
+   "group": "iam_enforcement",
+   "step": "denied_put_object",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-limited/fid is not authorized to perform: s3:PutObject on resource: \"arn:aws:s3:::<run>-bkt/a/new.txt\" because no identity-based policy allows the s3:PutObject action",
+   "secs": 0.26
+  },
+  {
+   "group": "iam_enforcement",
+   "step": "denied_list_bucket",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-limited/fid is not authorized to perform: s3:ListBucket on resource: \"arn:aws:s3:::<run>-bkt\" because no identity-based policy allows the s3:ListBucket action",
+   "secs": 0.81
+  },
+  {
+   "group": "iam_enforcement",
+   "step": "denied_delete_object",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-limited/fid is not authorized to perform: s3:DeleteObject on resource: \"arn:aws:s3:::<run>-bkt/a/one.txt\" because no identity-based policy allows the s3:DeleteObject action",
+   "secs": 0.26
+  },
+  {
+   "group": "iam_enforcement",
+   "step": "autopilot_trap_put_sse_kms_without_kms_permission",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-limited/fid is not authorized to perform: kms:GenerateDataKey on resource: arn:aws:kms:us-east-1:<acct>:key/<uuid> because no identity-based policy allows the kms:GenerateDataKey action. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/2yz861m9h0usg8ckz0rkdlrp6 for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: 2yz861m9h0usg8ckz0rkdlrp6",
+   "secs": 0.97
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "put_bucket_policy_principal_created_seconds_ago",
+   "ok": true,
+   "code": "MalformedPolicy",
+   "status": 400,
+   "msg": "Invalid principal in policy",
+   "secs": 0.27
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "role_with_no_policy_get",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-e2nopol/fid2 is not authorized to perform: s3:GetObject on resource: \"arn:aws:s3:::<run>-bkt/a/one.txt\" because no identity-based policy allows the s3:GetObject action",
+   "secs": 0.92
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "explicit_deny_prefix_denied",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-e2deny/fid2 is not authorized to perform: s3:GetObject on resource: \"arn:aws:s3:::<run>-bkt/secret/x\" with an explicit deny in an identity-based policy",
+   "secs": 0.83
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "explicit_deny_other_prefix_allowed",
+   "ok": true,
+   "val": "data",
+   "secs": 0.29
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "bucket_policy_deny_denied",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-e2bp/fid2 is not authorized to perform: s3:GetObject on resource: \"arn:aws:s3:::<run>-bkt/bp/x\" with an explicit deny in a resource-based policy",
+   "secs": 0.83
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "bucket_policy_deny_other_allowed",
+   "ok": true,
+   "val": "data",
+   "secs": 0.28
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "condition_list_allowed_prefix",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Contents",
+    "EncodingType",
+    "IsTruncated",
+    "KeyCount",
+    "MaxKeys",
+    "Name",
+    "Prefix"
+   ],
+   "val": {
+    "KeyCount": 3
+   },
+   "secs": 0.83
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "condition_list_other_prefix",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-e2cond/fid2 is not authorized to perform: s3:ListBucket on resource: \"arn:aws:s3:::<run>-bkt\" because no identity-based policy allows the s3:ListBucket action",
+   "secs": 0.27
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "condition_list_no_prefix",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-e2cond/fid2 is not authorized to perform: s3:ListBucket on resource: \"arn:aws:s3:::<run>-bkt\" because no identity-based policy allows the s3:ListBucket action",
+   "secs": 0.26
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "permissions_boundary_get_allowed",
+   "ok": true,
+   "val": "data",
+   "secs": 0.83
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "permissions_boundary_put_denied",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-e2bnd/fid2 is not authorized to perform: s3:PutObject on resource: \"arn:aws:s3:::<run>-bkt/a/bnd.txt\" because no permissions boundary allows the s3:PutObject action",
+   "secs": 0.29
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "session_policy_get_allowed",
+   "ok": true,
+   "val": "data",
+   "secs": 0.82
+  },
+  {
+   "group": "iam_enforcement2",
+   "step": "session_policy_put_denied",
+   "ok": false,
+   "code": "AccessDenied",
+   "status": 403,
+   "msg": "User: arn:aws:sts::<acct>:assumed-role/<run>-e2sess/fid2 is not authorized to perform: s3:PutObject on resource: \"arn:aws:s3:::<run>-bkt/a/sess.txt\" because no session policy allows the s3:PutObject action",
+   "secs": 0.27
+  },
+  {
+   "group": "lambda",
+   "step": "create_function",
+   "ok": true,
+   "status": 201,
+   "keys": [
+    "Architectures",
+    "CodeSha256",
+    "CodeSize",
+    "Description",
+    "Environment",
+    "EphemeralStorage",
+    "FunctionArn",
+    "FunctionName",
+    "Handler",
+    "LastModified",
+    "LoggingConfig",
+    "MemorySize",
+    "PackageType",
+    "RevisionId",
+    "Role",
+    "Runtime",
+    "RuntimeVersionConfig",
+    "SnapStart",
+    "State",
+    "StateReason",
+    "StateReasonCode",
+    "Timeout",
+    "TracingConfig",
+    "Version"
+   ],
+   "val": {
+    "Runtime": "python3.13",
+    "Handler": "index.handler",
+    "MemorySize": 128,
+    "Timeout": 10,
+    "PackageType": "Zip",
+    "State": "Pending",
+    "Architectures": [
+     "x86_64"
+    ]
+   },
+   "secs": 1.4
+  },
+  {
+   "group": "lambda",
+   "step": "create_function_duplicate",
+   "ok": false,
+   "code": "ResourceConflictException",
+   "status": 409,
+   "msg": "Function already exist: <run>-fn",
+   "extra": {
+    "Type": "User"
+   },
+   "secs": 0.58
+  },
+  {
+   "group": "lambda",
+   "step": "create_function_bad_runtime",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "1 validation error detected: Value 'python2.0' at 'runtime' failed to satisfy constraint: Member must satisfy enum value set: [nodejs20.x, python3.14, provided.al2023, python3.15, python3.12, python3.13, nodejs24.x, nodejs22.x, nodejs26.x, java25, python3.10, python3.11, java21, ruby3.3, ruby3.4, ruby4.0, ruby3.2, python3.8, python3.9, java17.al2023, java17, nodejs16.x, dotnet10, dotnet8, java8.al2023, java11, dotnet6, nodejs18.x, provided.al2, java8.al2, java11.al2023] or be a valid ARN",
+   "secs": 0.32
+  },
+  {
+   "group": "lambda",
+   "step": "create_function_role_missing",
+   "ok": false,
+   "code": "InvalidParameterValueException",
+   "status": 400,
+   "msg": "The role defined for the function cannot be assumed by Lambda.",
+   "extra": {
+    "Type": "User"
+   },
+   "secs": 0.44
+  },
+  {
+   "group": "lambda",
+   "step": "wait_active",
+   "ok": true,
+   "val": {
+    "waited": true
+   },
+   "secs": 1.68
+  },
+  {
+   "group": "lambda",
+   "step": "invoke_ok",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "ExecutedVersion",
+    "Payload",
+    "StatusCode"
+   ],
+   "val": {
+    "StatusCode": 200,
+    "FunctionError": null,
+    "payload": {
+     "echo": {
+      "a": 1
+     },
+     "env": "hi",
+     "fn": "<run>-fn"
+    }
+   },
+   "secs": 0.49
+  },
+  {
+   "group": "lambda",
+   "step": "invoke_dry_run",
+   "ok": true,
+   "status": 204,
+   "keys": [
+    "Payload",
+    "StatusCode"
+   ],
+   "val": {
+    "StatusCode": 204
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "lambda",
+   "step": "invoke_event_async",
+   "ok": true,
+   "status": 202,
+   "keys": [
+    "Payload",
+    "StatusCode"
+   ],
+   "val": {
+    "StatusCode": 202
+   },
+   "secs": 0.92
+  },
+  {
+   "group": "lambda",
+   "step": "invoke_missing_function",
+   "ok": false,
+   "code": "ResourceNotFoundException",
+   "status": 404,
+   "msg": "Function not found: arn:aws:lambda:us-east-1:<acct>:function:<run>-nofn:$LATEST",
+   "extra": {
+    "Type": "User",
+    "Message": "Function not found: arn:aws:lambda:us-east-1:<acct>:function:<run>-nofn:$LATEST"
+   },
+   "secs": 3.58
+  },
+  {
+   "group": "lambda",
+   "step": "invoke_bad_json_payload",
+   "ok": false,
+   "code": "InvalidRequestContentException",
+   "status": 400,
+   "msg": "Could not parse request body into json: Could not parse payload into json: Unexpected character ('n' (code 110)): was expecting double-quote to start field name\n at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 2]",
+   "extra": {
+    "Type": "User"
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "lambda",
+   "step": "invoke_function_raises",
+   "ok": true,
+   "val": {
+    "StatusCode": 200,
+    "FunctionError": "Unhandled",
+    "errorType": "ValueError",
+    "errorMessage": "boom"
+   },
+   "secs": 0.47
+  },
+  {
+   "group": "lambda",
+   "step": "update_function_configuration",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Architectures",
+    "CodeSha256",
+    "CodeSize",
+    "Description",
+    "Environment",
+    "EphemeralStorage",
+    "FunctionArn",
+    "FunctionName",
+    "Handler",
+    "LastModified",
+    "LastUpdateStatus",
+    "LastUpdateStatusReason",
+    "LastUpdateStatusReasonCode",
+    "LoggingConfig",
+    "MemorySize",
+    "PackageType",
+    "RevisionId",
+    "Role",
+    "Runtime",
+    "RuntimeVersionConfig",
+    "SnapStart",
+    "State",
+    "Timeout",
+    "TracingConfig",
+    "Version"
+   ],
+   "val": {
+    "env": {
+     "GREETING": "yo"
+    }
+   },
+   "secs": 0.62
+  },
+  {
+   "group": "lambda",
+   "step": "invoke_after_env_update",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "ExecutedVersion",
+    "Payload",
+    "StatusCode"
+   ],
+   "val": {
+    "payload": {
+     "echo": {},
+     "env": "hi",
+     "fn": "<run>-fn"
+    }
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "lambda",
+   "step": "get_function",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Code",
+    "Configuration"
+   ],
+   "val": {
+    "keys": [
+     "Architectures",
+     "CodeSha256",
+     "CodeSize",
+     "Description",
+     "Environment",
+     "EphemeralStorage",
+     "FunctionArn",
+     "FunctionName",
+     "Handler",
+     "LastModified",
+     "LastUpdateStatus",
+     "LastUpdateStatusReason",
+     "LastUpdateStatusReasonCode",
+     "LoggingConfig",
+     "MemorySize",
+     "PackageType",
+     "RevisionId",
+     "Role",
+     "Runtime",
+     "RuntimeVersionConfig",
+     "SnapStart",
+     "State",
+     "Timeout",
+     "TracingConfig",
+     "Version"
+    ],
+    "code_keys": [
+     "Location",
+     "RepositoryType"
+    ]
+   },
+   "secs": 0.34
+  },
+  {
+   "group": "lambda",
+   "step": "delete_function",
+   "ok": true,
+   "status": 204,
+   "keys": [
+    "StatusCode"
+   ],
+   "secs": 0.45
+  },
+  {
+   "group": "lambda",
+   "step": "delete_function_again",
+   "ok": false,
+   "code": "ResourceNotFoundException",
+   "status": 404,
+   "msg": "Function not found: arn:aws:lambda:us-east-1:<acct>:function:<run>-fn",
+   "extra": {
+    "Type": "User",
+    "Message": "Function not found: arn:aws:lambda:us-east-1:<acct>:function:<run>-fn"
+   },
+   "secs": 0.31
+  },
+  {
+   "group": "eventbridge",
+   "step": "create_event_bus",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "EventBusArn"
+   ],
+   "val": {
+    "arn_tail": "event-bus/<run>-bus"
+   },
+   "secs": 0.9
+  },
+  {
+   "group": "eventbridge",
+   "step": "create_event_bus_duplicate",
+   "ok": false,
+   "code": "ResourceAlreadyExistsException",
+   "status": 400,
+   "msg": "Event bus <run>-bus already exists.",
+   "secs": 0.26
+  },
+  {
+   "group": "eventbridge",
+   "step": "put_rule",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "RuleArn"
+   ],
+   "val": {
+    "has_arn": true
+   },
+   "secs": 0.87
+  },
+  {
+   "group": "eventbridge",
+   "step": "put_rule_invalid_pattern",
+   "ok": false,
+   "code": "InvalidEventPatternException",
+   "status": 400,
+   "msg": "Event pattern is not valid. Reason: \"source\" must be an object or an array\n at [Source: (String)\"{\"source\": \"not-a-list\"}\"; line: 1, column: 13]",
+   "secs": 0.27
+  },
+  {
+   "group": "eventbridge",
+   "step": "put_rule_schedule_and_pattern",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "ScheduleExpression is supported only on the default event bus.",
+   "secs": 0.81
+  },
+  {
+   "group": "eventbridge",
+   "step": "test_event_pattern_match",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Result"
+   ],
+   "val": {
+    "Result": true
+   },
+   "secs": 0.8
+  },
+  {
+   "group": "eventbridge",
+   "step": "test_event_pattern_no_match_numeric",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Result"
+   ],
+   "val": {
+    "Result": false
+   },
+   "secs": 0.27
+  },
+  {
+   "group": "eventbridge",
+   "step": "put_events_to_custom_bus",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Entries",
+    "FailedEntryCount"
+   ],
+   "val": {
+    "FailedEntryCount": 0,
+    "n_entries": 1
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "eventbridge",
+   "step": "put_events_bad_detail_json",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Entries",
+    "FailedEntryCount"
+   ],
+   "val": {
+    "FailedEntryCount": 1,
+    "error_code": "MalformedDetail"
+   },
+   "secs": 0.26
+  },
+  {
+   "group": "eventbridge",
+   "step": "put_events_missing_source",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "Entries",
+    "FailedEntryCount"
+   ],
+   "secs": 0.26
+  },
+  {
+   "group": "eventbridge",
+   "step": "put_events_11_entries",
+   "ok": false,
+   "code": "ValidationException",
+   "status": 400,
+   "msg": "1 validation error detected: Value '[PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null), PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null), PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null), PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null), PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null), PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null), PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null), PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null), PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null), PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null), PutEventsRequestEntry(time=null, source=x, resources=null, detailType=t, eventGroupId=null, detail={}, eventBusName=<run>-bus, traceHeader=null, kmsKeyIdentifier=null, internalMetadata=null)]' at 'entries' failed to satisfy constraint: Member must have length less than or equal to 10",
+   "secs": 0.26
+  },
+  {
+   "group": "eventbridge",
+   "step": "put_targets_sqs",
+   "ok": true,
+   "status": 200,
+   "keys": [
+    "FailedEntries",
+    "FailedEntryCount"
+   ],
+   "val": {
+    "FailedEntryCount": 0
+   },
+   "secs": 0.28
+  },
+  {
+   "group": "eventbridge",
+   "step": "delivery_to_sqs_WITHOUT_queue_policy",
+   "ok": true,
+   "val": {
+    "delivered": false
+   },
+   "secs": 27.39
+  },
+  {
+   "group": "eventbridge",
+   "step": "delivery_to_sqs_WITH_queue_policy",
+   "ok": true,
+   "val": {
+    "delivered": true,
+    "detail": {
+     "label": "withpolicy"
+    }
+   },
+   "secs": 1.42
+  }
+ ]
+}
